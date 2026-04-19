@@ -1,10 +1,12 @@
 #ifndef FUNCTIONS_H
-
 #define FUNCTIONS_H
+
+#include "struct.h"
 
 void reverseString();
 void checkBalanced();
 void decimalToBinary();
-void checkPalindrome();
+void palindromeCheck();
+void sortStack(Stack stack);
 
 #endif

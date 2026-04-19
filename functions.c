@@ -5,6 +5,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// ---------------------- Helpers
+static void silentPop(Stack stack)
+{
+
+    // Only pop if there is at least 1 node
+    if (stack->top == NULL || isEmpty(stack))
+    {
+        printf("Nothing to pop.");
+        return;
+    }
+
+    // Guaranteed to only pop if there is 1 or more node in the stack
+
+    NodePtr top = stack->top;
+    NodePtr newTop = stack->top->next;
+
+    stack->top = newTop;
+    free(top);
+    (stack->count)--;
+}
+
+// Returns the top node of the stack
+static NodePtr silentPeek(Stack stack)
+{
+    // Peek only if there is at least 1 node
+    if (stack->top == NULL || isEmpty(stack))
+    {
+        printf("Nothing to peek.");
+        return NULL;
+    }
+
+    return stack->top;
+}
+
+// ---------------------- Main methods
+
 void reverseString()
 {
     char str[100];
@@ -102,7 +138,7 @@ void decimalToBinary()
     }
 }
 
-void checkPalindrome()
+void palindromeCheck()
 {
     char str[100];
     char reversedStr[100] = "";
@@ -133,4 +169,39 @@ void checkPalindrome()
     }
 
     printf("Is palindrome: %s", strcmp(str, reversedStr) == 0 ? "True" : "False");
+}
+
+// Sorts stack from least to greatest
+void sortStack(Stack stack)
+{
+    // Only sort if there is two or more nodes in the stack
+    if (stack->count < 2)
+    {
+        printf("There is nothing to sort...");
+        return;
+    }
+
+    // Guaranteed to start only if stack has two or more nodes
+    Stack auxStack = createStack();
+
+    while (stack->count > 0)
+    {
+        NodePtr origTop = silentPeek(stack);
+        int topData = origTop->data;
+        silentPop(stack);
+
+        while (auxStack->count > 0 && auxStack->top->data < topData)
+        {
+            NodePtr auxTop = silentPeek(auxStack);
+            push(stack, auxTop->data);
+            silentPop(auxStack);
+        }
+
+        push(auxStack, topData);
+    }
+
+    stack->top = auxStack->top;
+    stack->count = auxStack->count;
+
+    free(auxStack);
 }

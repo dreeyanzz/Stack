@@ -35,15 +35,21 @@ void push(Stack stack, int item)
 void pop(Stack stack)
 {
     if (stack->top == NULL || isEmpty(stack))
+    {
         printf("Nothing to pop.");
+        return;
+    }
 
     NodePtr top = stack->top;
     NodePtr newTop = stack->top->next;
 
     stack->top = newTop;
     printf("Popped %d from the stack.\n", top->data);
-    free(top);
+
     (stack->count)--;
+
+    top->next = NULL;
+    free(top);
 }
 
 void peek(Stack stack)
@@ -68,12 +74,12 @@ void display(Stack stack)
     NodePtr walker = stack->top;
 
     printf("Current Stack: [ ");
-    printf("%d", walker->data);
+    printf("|%3d|", walker->data);
 
     walker = walker->next;
     while (walker != NULL)
     {
-        printf(" -> %d", walker->data);
+        printf(" -> |%3d|", walker->data);
         walker = walker->next;
     }
 
