@@ -11,5 +11,6 @@ void pop(Stack stack);
 void peek(Stack stack);
 void display(Stack stack);
 bool isEmpty(Stack stack);
+bool isFull(Stack stack);
 
 #endif
